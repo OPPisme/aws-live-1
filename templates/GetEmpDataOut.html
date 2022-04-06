@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Employee Information</title>
+</head>
+
+<style>
+    #button {
+        width: 8em;
+        border: 2px solid green;
+        background: #ffe;
+        border-radius: 5px;
+    }
+    a {
+        display: block;
+        width: 100%;
+        line-height: 2em;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    a:hover {
+        color: red;
+        background: #eff;
+    }
+    </style>
+	
+<center>
+	<font color="black" size="5" style="font-family: avenir">
+
+		<h1 style="color: Black">Employee Information</h1>
+
+		<body bgcolor="white">
+
+			<form>
+
+				<div>
+
+			  		Employee ID:<br> {{ id }} <br><br>
+
+			  		First Name:<br> {{ fname }} <br><br>
+
+			  		Last Name:<br> {{ lname }} <br><br>
+
+			  		Contact Number:<br> {{ interest }} <br><br>
+
+			  		Location:<br> {{ location }} <br><br>
+
+			  		Image URL: <br> {{ image_url }} <br><br>
+
+			  		<div id="button"><a href="GetEmpData.html">Go Back</a></div>
+
+			  	</div>
+
+			</form>
+
+		</body>
+
+	</font>
+</center>
+</html>

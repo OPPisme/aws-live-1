@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add New Employee Information</title>
+</head>
+
+<style>
+    #button {
+        width: 8em;
+        border: 2px solid green;
+        background: #ffe;
+        border-radius: 5px;
+    }
+    a {
+        display: block;
+        width: 100%;
+        line-height: 2em;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    a:hover {
+        color: red;
+        background: #eff;
+    }
+    </style>
+
+<center>
+	<font color="black" size="4" style="font-family: avenir">
+
+		<h1 style="color: black">Add New Employee</h1>
+
+		<body bgcolor="white">
+
+			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
+
+				<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
+
+		  		Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
+
+		  		First Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="first_name" ><br><br>
+
+		  		Last Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="last_name"><br><br>
+
+		  		Contact Number:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="contact_no"><br><br>
+
+		  		Email:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="email"><br><br>
+
+		  		Profile Image: <input type=file name="emp_image_file" style="height:25px;font-size:14pt;color:grey;"> <br><br>
+
+		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE EMPLOYEE</button>
+
+			</form>
+			<br><br>
+            <div id="button"><a href="Home.html">Go Back</a></div>
+		</body>
+
+	</font>
+</center>
+</html>

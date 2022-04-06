@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Get Employee Information</title>
+</head>
+
+<style>
+    #button {
+        width: 8em;
+        border: 2px solid green;
+        background: #ffe;
+        border-radius: 5px;
+    }
+    a {
+        display: block;
+        width: 100%;
+        line-height: 2em;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    a:hover {
+        color: red;
+        background: #eff;
+    }
+    </style>
+
+
+<center>
+	<font color="black" size="5" style="font-family: avenir">
+
+		<h1 style="color: Black">Search Employee Information</h1>
+
+		<body bgcolor="white">
+
+			<form action="/fetchdata" autocomplete="on" method="POST">
+
+				<h2 style="color: grey">Enter Employee ID</h2>
+
+		  		Employee ID:<br> <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
+
+
+		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">FETCH INFO</button><br><br>
+
+		  		<div id="button"><a href="AddNewEmp.html">Add Another New Employee</a></div>
+
+			</form>
+
+		</body>
+	</font>
+</center>
+</html>
