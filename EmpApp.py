@@ -23,21 +23,32 @@ table = 'employee'
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('AddEmp.html')
+    return render_template('AddNewEmp.html')
 
-
-@app.route("/about", methods=['POST'])
-def about():
-    return render_template('www.intellipaat.com')
+@app.route("/fetchdata", methods=['POST'])
+def GetEmpData():
+    
+    emp_id = request.form["emp_id"]
+    mycursor = db_conn.cursor()
+    mycursor.execute("select * from employee where emp_id = emp_id")
+    mycursor.fetchall()
+    
+    emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+    s3 = boto3.resource('s3')
+    s3_Object = s3.Bucket(custombucket).Object(emp_image_file_name_in_s3).get()
+    image = s3_Object['Body'].read().decode()
+    bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+    s3_location = (bucket_location['LocationConstraint'])
+    print(image)
 
 
 @app.route("/addemp", methods=['POST'])
-def AddEmp():
+def AddNewEmp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
-    pri_skill = request.form['pri_skill']
-    location = request.form['location']
+    contact_no = request.form['contact_no']
+    email = request.form['email']
     emp_image_file = request.files['emp_image_file']
 
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
@@ -48,7 +59,7 @@ def AddEmp():
 
     try:
 
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, contact_no, email))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
@@ -78,8 +89,9 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('AddEmpOutput.html', name=emp_name)
+    return render_template('AddNewEmpOut.html', name=emp_name)
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
