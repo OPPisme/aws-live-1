@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, render_template, request
 from pymysql import connections
 import os
@@ -26,12 +27,15 @@ def home():
     return render_template('Home.html')
 
 @app.route("/addemp", methods=['POST'])
-def AddNewEmp():
+def homepage():
     return render_template("Home.html")
+
+@app.route("/empatt", methods=['POST'])
+def EmpAtt():
+    return render_template()
 
 @app.route("/fetchdata", methods=['POST'])
 def GetEmpData():
-    
     emp_id = request.form["emp_id"]
     mycursor = db_conn.cursor()
     mycursor.execute("select * from employee where emp_id = emp_id")
@@ -44,6 +48,8 @@ def GetEmpData():
     bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
     s3_location = (bucket_location['LocationConstraint'])
     print(image)
+    render_template('GetNewEmpOut.html')
+
 
 
 @app.route("/addemp", methods=['POST'])
