@@ -1,4 +1,5 @@
 from crypt import methods
+from tkinter import Button
 from flask import Flask, render_template, request
 from pymysql import connections
 import os
@@ -43,20 +44,22 @@ def diratt():
 def dirpay():
     return render_template("Payroll.html")
 
-@app.route("/empatt", methods=['POST'])
+@app.route("/empattend", methods=['POST'])
 def EmpAtt():
     now = datetime.datetime.now()
     now.strftime("%y-%m-%d %H:%M:%S")
 
     emp_id = request.form['emp_id']
-    chkin = request.form['chkin']
-    chkout = request.form['chkout']
-    insert_sql = "INSERT INTO employee VALUES where emp_id = emp_id (%s, %s)"
+    attstatus = request.form['attstatus']
+
+    insert_sql = "INSERT INTO attendance VALUES (%s, %s)"
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(insert_sql, (chkin,chkout))
+
+        cursor.execute(insert_sql, (emp_id, attstatus))
         db_conn.commit()
+        successsta = "" + emp_id + " has checked in at the time" + now
 
     except Exception as e:
             return str(e)
@@ -67,23 +70,31 @@ def EmpAtt():
     return render_template('Home.html')
 
 
-@app.route("/fetchdata", methods=['POST'])
+@app.route("/fetchdata", methods=['GET','POST'])
 def GetEmpData():
     emp_id = request.form["emp_id"]
     mycursor = db_conn.cursor()
-    mycursor.execute("select * from employee where emp_id = emp_id")
-    mycursor.fetchall()
+    getempdata = "select * from employee where emp_id = %s"
+    mycursor.execute(getempdata,(emp_id))
+    result = mycursor.fetchall()
+    (emp_id,first_name,last_name,contact_no,email,position,hiredate,salary) = result[0]
+    image = showimage(custombucket)
+    print(result,image)
+    return render_template('GetNewEmpOut.html', emp_id=emp_id,first_name=first_name,last_name=last_name,contact_no=contact_no,email=email,position=position,hiredate=hiredate,salary=salary,image=image)
+
+def showimage(bucket):
+    s3_client = boto3.client('s3')
+    public_urls = []
+
+    emp_id = request.form['emp_id']
     
-    emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-    s3 = boto3.resource('s3')
-    s3_Object = s3.Bucket(custombucket).Object(emp_image_file_name_in_s3).get()
-    image = s3_Object['Body'].read().decode()
-    bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-    s3_location = (bucket_location['LocationConstraint'])
-    print(mycursor,image)
-    return render_template('GetNewEmpOut.html')
+    for item in s3_client.list_objects(Bucket=bucket)['Contents']:
+        pressigned_url = s3_client.generate_pressigned_url ('getobject' , 
+        Params = {'Bucket':bucket, 'Key':item['Key']} , ExpiresIn = 100)
+        if emp_id in pressigned_url:
+            public_urls.append(pressigned_url)
 
-
+        return public_urls
 
 @app.route("/addemp", methods=['GET','POST'])
 def AddNewEmp():
