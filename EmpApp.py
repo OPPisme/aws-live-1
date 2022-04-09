@@ -27,9 +27,21 @@ table = 'employee'
 def home():
     return render_template('Home.html')
 
-@app.route("/templates/", methods=['GET','POST'])
-def homepage():
+@app.route("/addnewemp", methods=['GET','POST'])
+def diradd():
     return render_template("AddNewEmp.html")
+
+@app.route("/getempdata", methods=['GET','POST'])
+def dirget():
+    return render_template("GetEmpData.html")
+
+@app.route("/empatt", methods=['GET','POST'])
+def diratt():
+    return render_template("EmpAtt.html")
+
+@app.route("/payroll", methods=['GET','POST'])
+def dirpay():
+    return render_template("Payroll.html")
 
 @app.route("/empatt", methods=['POST'])
 def EmpAtt():
@@ -73,7 +85,7 @@ def GetEmpData():
 
 
 
-@app.route("/addemp", methods=['POST'])
+@app.route("/addemp", methods=['GET','POST'])
 def AddNewEmp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
