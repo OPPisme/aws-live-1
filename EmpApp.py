@@ -29,7 +29,7 @@ def home():
 
 @app.route("/", methods=['GET','POST'])
 def homepage():
-    return render_template("AddNewEmp.html")
+    return render_template("templates/AddNewEmp.html")
 
 @app.route("/empatt", methods=['POST'])
 def EmpAtt():
