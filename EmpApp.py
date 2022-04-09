@@ -44,6 +44,10 @@ def diratt():
 def dirpay():
     return render_template("Payroll.html")
 
+@app.route("/delete", methods=['GET','POST'])
+def dirpay():
+    return render_template("DelEmp.html")
+
 @app.route("/empattend", methods=['POST'])
 def EmpAtt():
     now = datetime.datetime.now()
@@ -95,6 +99,22 @@ def showimage(bucket):
             public_urls.append(pressigned_url)
 
         return public_urls
+
+@app.route("/delemp", methods['GET','POST'])
+def DeleteEmp():
+    emp_id = request.form['emp_id']
+    mycursor = db_conn.cursor()
+    deleteemp = "DELETE FROM employee WHERE emp_id = %s"
+    mycursor.execute(deleteemp,(emp_id))
+    db_conn.commit()
+    deleteatt = "DELETE FROM attendance WHERE emp_id = %s"
+    mycursor.execute(deleteatt,(emp_id))
+    db_conn.commit()
+
+    s3_client = boto3.client('s3')
+    emp_image_file_name_in_s3 = "emp_id" + str(emp_id) + "_image_file"
+    s3_client.delete_object(Bucket=custombucket, Key=emp_image_file_name_in_s3)
+    return render_template('DelEmpOut.html')
 
 @app.route("/addemp", methods=['GET','POST'])
 def AddNewEmp():
