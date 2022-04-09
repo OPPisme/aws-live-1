@@ -23,6 +23,14 @@
         color: red;
         background: #eff;
     }
+
+    select {
+        width:15%;
+        border:1px solid black;
+        border-radius: 05px;
+        box-shadow: 1px 1px 2px 1px grey;
+        padding: 10px 15px 10px 15px;
+    }
     </style>
 
 <center>
@@ -39,6 +47,7 @@
                 Employee ID:<br> <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
 
                 <select name="attstatus">
+                    <option value=""> --SELECT-- </option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
                     <option value="MC">MC</option>
