@@ -27,10 +27,6 @@ table = 'employee'
 def home():
     return render_template('Home.html')
 
-@app.route("/home")
-def home():
-    return render_template('Home.html')   
-
 @app.route("/addnewemp", methods=['GET','POST'])
 def diradd():
     return render_template("AddNewEmp.html")
