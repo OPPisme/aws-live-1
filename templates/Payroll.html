@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Human Resource Management Homepage</title>
+	<title>Payroll</title>
 </head>
 
 <style>
@@ -28,16 +28,18 @@
 <center>
 	<font color="black" size="4" style="font-family: avenir">
 
-		<h1 style="color: black">Choose Your Action</h1>
+		<h1 style="color: black">Payroll System</h1>
 
 		<body bgcolor="white">
 
-            <form action="/home" autocomplete="on" method="POST">
+            <form action="/empatt" autocomplete="on" method="POST" enctype="multipart/form-data">
 
-                <div id="button"><a href="AddNewEmp.html">Add New Employee</a></div><br><br>
-                <div id="button"><a href="GetEmpData.html">Search Existing Employee</a></div><br><br>
-                <div id="button"><a href="EmpAtt.html">Employee Attendance</a></div><br><br>
-                <div id="button"><a href="Payroll.html">Employee Attendance</a>
+                <h2 style="color: grey">Enter Employee ID</h2>
+
+                Employee ID:<br> <input style="height:25px;font-size:14pt;" type="number" name="emp_id" autofocus size="40"><br><br>
+
+                <button id="button" type="submit" name="chkin">Check In</button></div><br><br>
+                <button id="button" type="submit" name="chkout">Check Out</button></div>
 
             </form>
 
