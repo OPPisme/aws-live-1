@@ -43,7 +43,7 @@ def diratt():
 def dirpay():
     return render_template("Payroll.html")
 
-@app.route("/empatt", methods=['POST'])
+@app.route("/empattend", methods=['POST'])
 def EmpAtt():
     now = datetime.datetime.now()
     now.strftime("%y-%m-%d %H:%M:%S")
@@ -67,12 +67,13 @@ def EmpAtt():
     return render_template('Home.html')
 
 
-@app.route("/fetchdata", methods=['POST'])
+@app.route("/fetchdata", methods=['GET','POST'])
 def GetEmpData():
     emp_id = request.form["emp_id"]
     mycursor = db_conn.cursor()
-    mycursor.execute("select * from employee where emp_id = emp_id")
-    mycursor.fetchall()
+    getempdata = "select * from employee where emp_id = %s"
+    mycursor.execute(getempdata,(emp_id))
+    result = mycursor.fetchall()
     
     emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
     s3 = boto3.resource('s3')
@@ -80,7 +81,7 @@ def GetEmpData():
     image = s3_Object['Body'].read().decode()
     bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
     s3_location = (bucket_location['LocationConstraint'])
-    print(mycursor,image)
+    print(result,image)
     return render_template('GetNewEmpOut.html')
 
 
