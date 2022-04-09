@@ -52,7 +52,7 @@ def EmpAtt():
     emp_id = request.form['emp_id']
     attstatus = request.form['attstatus']
 
-    insert_sql = "INSERT INTO employee VALUES (%s, %s)"
+    insert_sql = "INSERT INTO attendance VALUES (%s, %s)"
     cursor = db_conn.cursor()
 
     try:
