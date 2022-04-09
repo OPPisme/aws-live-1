@@ -39,7 +39,7 @@ def EmpAtt():
     emp_id = request.form['emp_id']
     chkin = request.form['chkin']
     chkout = request.form['chkout']
-    insert_sql = "INSERT INTO employee VALUES where emp_id(%s, %s, %s, %s, %s, %s, %s, %s)"
+    insert_sql = "INSERT INTO employee VALUES where emp_id = emp_id (%s, %s)"
     cursor = db_conn.cursor()
 
     try:
@@ -54,6 +54,7 @@ def EmpAtt():
 
     return render_template('Home.html')
 
+
 @app.route("/fetchdata", methods=['POST'])
 def GetEmpData():
     emp_id = request.form["emp_id"]
@@ -67,8 +68,8 @@ def GetEmpData():
     image = s3_Object['Body'].read().decode()
     bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
     s3_location = (bucket_location['LocationConstraint'])
-    print(image)
-    render_template('GetNewEmpOut.html')
+    print(mycursor,image)
+    return render_template('GetNewEmpOut.html')
 
 
 
