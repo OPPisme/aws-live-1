@@ -40,9 +40,22 @@ def dirget():
 def diratt():
     return render_template("EmpAtt.html")
 
+@app.route("/update", methods=['GET','POST'])
+def dirupdate():
+    return render_template('Payroll.html')
+
 @app.route("/payroll", methods=['GET','POST'])
 def dirpay():
-    return render_template("Payroll.html")
+    emp_id = request.form['emp_id']
+    salary = request.form['salary']
+
+    updatesql = "UPDATE employee SET salary= %s WHERE emp_id = %s"
+    mycursor = db_conn.cursor()
+    changefield = (salary, emp_id)
+    mycursor.execute(updatesql, (changefield))
+    db_conn.commit()
+    mycursor.close()
+    return render_template("PayOut.html")
 
 @app.route("/delete", methods=['GET','POST'])
 def dirpay():
