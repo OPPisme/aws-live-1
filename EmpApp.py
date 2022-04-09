@@ -1,4 +1,5 @@
 from crypt import methods
+from tkinter import Button
 from flask import Flask, render_template, request
 from pymysql import connections
 import os
@@ -49,14 +50,16 @@ def EmpAtt():
     now.strftime("%y-%m-%d %H:%M:%S")
 
     emp_id = request.form['emp_id']
-    chkin = request.form['chkin']
-    chkout = request.form['chkout']
-    insert_sql = "INSERT INTO employee VALUES where emp_id = emp_id (%s, %s)"
+    attstatus = request.form['attstatus']
+
+    insert_sql = "INSERT INTO employee VALUES (%s, %s)"
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(insert_sql, (chkin,chkout))
+
+        cursor.execute(insert_sql, (emp_id, attstatus))
         db_conn.commit()
+        successsta = "" + emp_id + " has checked in at the time" + now
 
     except Exception as e:
             return str(e)
