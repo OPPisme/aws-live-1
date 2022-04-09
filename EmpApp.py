@@ -4,6 +4,7 @@ from pymysql import connections
 import os
 import boto3
 from config import *
+import datetime
 
 app = Flask(__name__)
 
@@ -32,7 +33,26 @@ def homepage():
 
 @app.route("/empatt", methods=['POST'])
 def EmpAtt():
-    return render_template()
+    now = datetime.datetime.now()
+    now.strftime("%y-%m-%d %H:%M:%S")
+
+    emp_id = request.form['emp_id']
+    chkin = request.form['chkin']
+    chkout = request.form['chkout']
+    insert_sql = "INSERT INTO employee VALUES where emp_id(%s, %s, %s, %s, %s, %s, %s, %s)"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(insert_sql, (chkin,chkout))
+        db_conn.commit()
+
+    except Exception as e:
+            return str(e)
+
+    finally:
+        cursor.close()
+
+    return render_template('Home.html')
 
 @app.route("/fetchdata", methods=['POST'])
 def GetEmpData():
@@ -59,9 +79,12 @@ def AddNewEmp():
     last_name = request.form['last_name']
     contact_no = request.form['contact_no']
     email = request.form['email']
+    position = request.form['position']
+    hiredate = request.form['hiredate']
+    salary = request.form['salary']
     emp_image_file = request.files['emp_image_file']
 
-    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
+    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
 
     if emp_image_file.filename == "":
@@ -69,7 +92,7 @@ def AddNewEmp():
 
     try:
 
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, contact_no, email))
+        cursor.execute(insert_sql, (emp_id, first_name, last_name, contact_no, email, position, hiredate, salary))
         db_conn.commit()
         emp_name = "" + first_name + " " + last_name
         # Uplaod image file in S3 #
